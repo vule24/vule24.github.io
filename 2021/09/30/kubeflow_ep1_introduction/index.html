@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_eg_3.png">
 <meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_eg_4.png">
 <meta property="article:published_time" content="2021-09-29T17:00:00.000Z">
-<meta property="article:modified_time" content="2021-10-05T07:47:38.562Z">
+<meta property="article:modified_time" content="2021-10-05T07:53:43.129Z">
 <meta property="article:author" content="Vu Le">
 <meta property="article:tag" content="dag">
 <meta property="article:tag" content="mlops">
@@ -309,11 +309,21 @@ For Window user, run this command in <code>cmd</code> or <code>powershell</code>
 <ol>
 <li>Access to <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080/</a></li>
 <li>Go to <code>Experiments</code></li>
-<li>Click at <code>Create experiment</code> to create new experiment<br><img src="/img/kubeflow_ep1_eg_1.png" srcset="/img/loading.gif" lazyload></li>
-<li>Go to <code>Pipelines</code> -&gt; <code>[Tutorial] DSL - Control structures</code> -&gt; Create run<br><img src="/img/kubeflow_ep1_eg_2.png" srcset="/img/loading.gif" lazyload></li>
-<li>Go to experiments <code>Vu&#39;s Blog</code> or access to <code>Runs</code> to see run details<br><img src="/img/kubeflow_ep1_eg_3.png" srcset="/img/loading.gif" lazyload></li>
-<li>Try clicking any component to explore more details of the task.<br><img src="/img/kubeflow_ep1_eg_4.png" srcset="/img/loading.gif" lazyload></li>
+<li>Click at <code>Create experiment</code> to create new experiment</li>
 </ol>
+<p><img src="/img/kubeflow_ep1_eg_1.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="4">
+<li>Go to <code>Pipelines</code> -&gt; <code>[Tutorial] DSL - Control structures</code> -&gt; Create run</li>
+</ol>
+<p><img src="/img/kubeflow_ep1_eg_2.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="5">
+<li>Go to experiments <code>Vu&#39;s Blog</code> or access to <code>Runs</code> to see run details</li>
+</ol>
+<p><img src="/img/kubeflow_ep1_eg_3.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="6">
+<li>Try clicking any component to explore more details of the task.</li>
+</ol>
+<p><img src="/img/kubeflow_ep1_eg_4.png" srcset="/img/loading.gif" lazyload></p>
 <h1 id="Kubeflow-Pipelines-SDK"><a href="#Kubeflow-Pipelines-SDK" class="headerlink" title="Kubeflow Pipelines SDK"></a>Kubeflow Pipelines SDK</h1><p>Kubeflow SDK provides a Python library that allows you to interact with Pipelines, Components, and provides a set of API to communicate with Kubeflow backend.<br>In this blog, I highly recommend you to use my example code snippets to have a better understanding of the SDK instead of reading the whole documentation <a target="_blank" rel="noopener" href="https://kubeflow-pipelines.readthedocs.io/en/stable/" style="color: #30a9de">here</a> which is definitely difficult for beginner.</p>
 <h2 id="Installation-1"><a href="#Installation-1" class="headerlink" title="Installation"></a>Installation</h2><p>To install Kubeflow SDK, run this following command</p>
 <figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">pip install -U kfp<br></code></pre></div></td></tr></table></figure>
