@@ -1,0 +1,584 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Vu Le">
+  <meta name="keywords" content="">
+  <meta name="description" content="OverviewWelcome to the Kubeflow series of Vu&#39;s blog. In this series, I am going to share with you guys all of my understanding and experience in development and operation using Kubeflow which I have o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubeflow Ep1: Introduction">
+<meta property="og:url" content="https://vule24.github.io/2021/09/30/kubeflow_ep1_introduction/index.html">
+<meta property="og:site_name" content="Vu&#39;s Blog">
+<meta property="og:description" content="OverviewWelcome to the Kubeflow series of Vu&#39;s blog. In this series, I am going to share with you guys all of my understanding and experience in development and operation using Kubeflow which I have o">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_logo_thin.png">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_pipeline_1.png">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_pipeline_2.png">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_experiment_1.png">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_experiment_2.png">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_runs.png">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_jobs.png">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_eg_1.png">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_eg_2.png">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_eg_3.png">
+<meta property="og:image" content="https://vule24.github.io/img/kubeflow_ep1_eg_4.png">
+<meta property="article:published_time" content="2021-09-29T17:00:00.000Z">
+<meta property="article:modified_time" content="2023-05-26T08:56:56.159Z">
+<meta property="article:author" content="Vu Le">
+<meta property="article:tag" content="dag">
+<meta property="article:tag" content="mlops">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vule24.github.io/img/kubeflow_logo_thin.png">
+  
+  <title>Kubeflow Ep1: Introduction - Vu&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/atom-one-dark.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"vule24.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Vu&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                My Portfolio
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Kubeflow Ep1: Introduction">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-09-30 00:00" pubdate>
+        September 30, 2021
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.6k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      8 minutes
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> views
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Kubeflow Ep1: Introduction</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p><img src="/img/kubeflow_logo_thin.png" srcset="/img/loading.gif" lazyload><br>Welcome to the Kubeflow series of <span class="label label-danger">Vu's blog</span>. In this series, I am going to share with you guys all of my understanding and experience in development and operation using Kubeflow which I have obtained over a year working with such a brand-new game-changer DAG platform.</p>
+<p>First of all, what is Kubeflow?</p>
+<p class="note note-primary">
+Kubeflow is a Machine Learning platform for Kubenetes which allows us to design, manage workflows. It is known as a high-level DAG platform that utilizes 
+<a target="_blank" rel="noopener" href="https://argoproj.github.io" style="color: #30a9de">Argo</a>
+as its foundation but with a Python interface SDK in place of traditional Kubenetes interface.
+</p>
+
+<p>Why should we choose Kubeflow for our project over than the other tools?</p>
+<p class="note note-success">Kubeflow can help us to reduce much effort which results in efficient concentration in the project.</p>
+<p class="note note-success">By using Kubeflow, our codebase can be more shrinked than ever before.</p>
+<p class="note note-success">It has friendly Python interface.</p>
+<p class="note note-success">Like the name says it all, Kubeflow can be deployed anywhere which has already had Kubenetes installed.</p>
+<p class="note note-success">It can leverage the power of Kubenetes.</p>
+<p class="note note-success">Kubeflow is backed by Google.</p>
+<p class="note note-success">Currently, Kubeflow is used by many big companies such as Spotify, GoJek, IBM to name a few.</p>
+
+<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><h2 id="Local"><a href="#Local" class="headerlink" title="Local"></a>Local</h2><p>Fortunately, local installation is so straightforward thanks to the support of <span class="label label-danger">k3s</span> or <span class="label label-danger">k3ai</span>. The entire installation guide can be retrieved <a target="_blank" rel="noopener" href="https://www.kubeflow.org/docs/components/pipelines/installation/localcluster-deployment/" style="color: #30a9de">here</a><br>In this post, I would like to introduce to you guys how to locally install Kubeflow using <span class="label label-danger">k3s</span> in which I have already had experience.<br>For more information about <span class="label label-danger">k3ai</span>, please visit their <a target="_blank" rel="noopener" href="https://docs.k3ai.in/" style="color: #30a9de">site</a>.</p>
+<h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><p>Run the following command to install <span class="label label-danger">k3s</span><br>  <figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">curl -sfL https://get.k3s.io | sh -<br></code></pre></div></td></tr></table></figure></p>
+<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><ol>
+<li>Enable WSL2</li>
+<li>Install Docker Desktop</li>
+<li>Open Docker Desktop -&gt; Settings -&gt; General -&gt; Use the WSL2 based engine</li>
+<li>Download <span class="label label-danger">k3s</span> binary <a target="_blank" rel="noopener" href="https://github.com/k3s-io/k3s/releases/tag/v1.20.0+k3s2" style="color: #30a9de">here</a> </li>
+<li>Copy the downloaded file to WSL2 home directory and execute permission to <span class="label label-danger">k3s</span> binary<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">chmod +x k3s<br></code></pre></div></td></tr></table></figure></li>
+<li>Start <span class="label label-danger">k3s</span><figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">sudo ./k3s server<br></code></pre></div></td></tr></table></figure></li>
+<li>In WSL2 session, copy <code>/etc/rancher/k3s/k3s.yaml</code> to <code>$HOME/.kube/config</code>. </li>
+<li>Edit the copied file by changing the server URL from <a target="_blank" rel="noopener" href="https://localhost:6443/">https://localhost:6443</a> to the IP of the WSL instance, find it by typing <code>ip addr show dev eth0</code> in the <span class="label label-danger">CMD</span>.<br>For example, <a target="_blank" rel="noopener" href="https://192.168.170.170:6443/">https://192.168.170.170:6443</a> where <code>192.168.170.170</code> is the ip of WSL2 instance.</li>
+</ol>
+<h3 id="Deploy-Kubeflow"><a href="#Deploy-Kubeflow" class="headerlink" title="Deploy Kubeflow"></a>Deploy Kubeflow</h3><ol>
+<li>Run the following commands<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> PIPELINE_VERSION=1.7.0<br>sudo kubectl apply -k <span class="hljs-string">&quot;github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=<span class="hljs-variable">$PIPELINE_VERSION</span>&quot;</span><br>sudo kubectl <span class="hljs-built_in">wait</span> --<span class="hljs-keyword">for</span> condition=established --timeout=60s crd/applications.app.k8s.io<br>sudo kubectl apply -k <span class="hljs-string">&quot;github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=<span class="hljs-variable">$PIPELINE_VERSION</span>&quot;</span><br></code></pre></div></td></tr></table></figure></li>
+<li>Verify that Kubeflow Pipeline UI is accessible by port-forwarding<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">sudo kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80<br></code></pre></div></td></tr></table></figure>
+For Window user, run this command in <span class="label label-danger">cmd</span> or <span class="label label-danger">powershell</span> (no need to type <code>sudo</code>)</li>
+<li>Access <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a></li>
+</ol>
+<h3 id="Uninstall"><a href="#Uninstall" class="headerlink" title="Uninstall"></a>Uninstall</h3><p>To uninstall Kubeflow, run this following command</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> PIPELINE_VERSION=1.7.0<br>sudo kubectl delete -k <span class="hljs-string">&quot;github.com/kubeflow/pipelines/manifests/kustomize/env/platform-agnostic-pns?ref=<span class="hljs-variable">$PIPELINE_VERSION</span>&quot;</span><br>sudo kubectl delete -k <span class="hljs-string">&quot;github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=<span class="hljs-variable">$PIPELINE_VERSION</span>&quot;</span><br></code></pre></div></td></tr></table></figure>
+
+<h2 id="Cloud"><a href="#Cloud" class="headerlink" title="Cloud"></a>Cloud</h2><p>You can follow the instruction <a target="_blank" rel="noopener" href="https://www.kubeflow.org/docs/started/installing-kubeflow/" style="color: #30a9de">here</a> to find the right documentation for the cloud platform on which you are working.</p>
+<h1 id="Kubeflow-Component"><a href="#Kubeflow-Component" class="headerlink" title="Kubeflow Component"></a>Kubeflow Component</h1><h2 id="Pipeline"><a href="#Pipeline" class="headerlink" title="Pipeline"></a>Pipeline</h2><p>After successfully accessing to <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a>, you probably see this UI.<br><img src="/img/kubeflow_ep1_pipeline_1.png" srcset="/img/loading.gif" lazyload></p>
+<p>Kubeflow Pipeline UI helps you to manage pipelines and their version. It is supposed to be a version control tool but merely for pipeline and you are definitely able to commit a new pipeline, update its version, create run for the pipeline or even delete it. This Pipeline version control is easily interacted with the given above UI or the SDK. Now just attempt clicking at any pipeline, e.g. <code>[Tutorial] DSL - Control structures</code><br><img src="/img/kubeflow_ep1_pipeline_2.png" srcset="/img/loading.gif" lazyload></p>
+<p>This pipeline page depicts the graph following the pipeline definition. Besides, there are some options like create run, upload version, create experiment and delete buttons that are respectively located on the right side of the page. </p>
+<p>Pipeline ID could be retrieved in the <span class="label label-danger">Summary</span> box or on the address bar. E.g: <a target="_blank" rel="noopener" href="http://localhost:8080/#/pipelines/details/f52091e3-e428-43f7-8165-4fea81b93878">http://localhost:8080/#/pipelines/details/f52091e3-e428-43f7-8165-4fea81b93878</a> so the pipeline ID is <code>f52091e3-e428-43f7-8165-4fea81b93878</code></p>
+<h2 id="Experiment"><a href="#Experiment" class="headerlink" title="Experiment"></a>Experiment</h2><p>Experiment is a workspace for trying different configurations of a pipeline<br><img src="/img/kubeflow_ep1_experiment_1.png" srcset="/img/loading.gif" lazyload><br>You can use experiment to organize your runs into logical groups as well. It is also a space for containing scheduled runs configurations. Moreover, this Kubeflow Component permits you to compares runs directly in the page or by clicking <span class="label label-danger">Compare runs</span> button, however, it requires the component has been set along with output metrics.</p>
+<p>This is the experiment <span class="label label-danger">Default</span> page.<br><img src="/img/kubeflow_ep1_experiment_2.png" srcset="/img/loading.gif" lazyload><br>Experiment ID could be retrieved on the address bar. E.g: <a target="_blank" rel="noopener" href="http://localhost:8080/#/experiments/details/f8e98b23-35d1-46bd-a7c2-95c5501334bf">http://localhost:8080/#/experiments/details/f8e98b23-35d1-46bd-a7c2-95c5501334bf</a> so the experiment ID is <code>f8e98b23-35d1-46bd-a7c2-95c5501334bf</code></p>
+<h2 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h2><p>This is normally an one-off execution which mean that it will run only once.<br>You can retrieve runs in a specific experiment or open <span class="label label-danger">Runs</span> page to get the list of all existing runs.<br><img src="/img/kubeflow_ep1_runs.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Job"><a href="#Job" class="headerlink" title="Job"></a>Job</h2><p>An other name of <span class="label label-danger">Job</span> is <span class="label label-danger">Recurring Runs</span> which refers to scheduled runs.<br><img src="/img/kubeflow_ep1_jobs.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p>Run a basic example using UI.</p>
+<ol>
+<li>Access to <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080/</a></li>
+<li>Go to <span class="label label-danger">Experiments</span></li>
+<li>Click at <span class="label label-danger">Create experiment</span> to create new experiment</li>
+</ol>
+<p><img src="/img/kubeflow_ep1_eg_1.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="4">
+<li>Go to <span class="label label-danger">Pipelines</span> -&gt; <code>[Tutorial] DSL - Control structures</code> -&gt; Create run</li>
+</ol>
+<p><img src="/img/kubeflow_ep1_eg_2.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="5">
+<li>Go to experiments <span class="label label-danger">Vu's Blog</span> or access to <span class="label label-danger">Runs</span> to see run details</li>
+</ol>
+<p><img src="/img/kubeflow_ep1_eg_3.png" srcset="/img/loading.gif" lazyload></p>
+<ol start="6">
+<li>Try clicking any component to explore more details of the task.</li>
+</ol>
+<p><img src="/img/kubeflow_ep1_eg_4.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Kubeflow-Pipelines-SDK"><a href="#Kubeflow-Pipelines-SDK" class="headerlink" title="Kubeflow Pipelines SDK"></a>Kubeflow Pipelines SDK</h1><p>Kubeflow SDK provides a Python library that allows you to interact with Pipelines, Components, and provides a set of API to communicate with Kubeflow backend.<br>In this blog, I highly recommend you to use my example code snippets to have a better understanding of the SDK instead of reading the whole documentation <a target="_blank" rel="noopener" href="https://kubeflow-pipelines.readthedocs.io/en/stable/" style="color: #30a9de">here</a> which is definitely difficult for beginner.</p>
+<h2 id="Installation-1"><a href="#Installation-1" class="headerlink" title="Installation"></a>Installation</h2><p>To install Kubeflow SDK, run this following command</p>
+<figure class="highlight bash"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">pip install -U kfp<br></code></pre></div></td></tr></table></figure>
+<h2 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h2><ol>
+<li>Open your local notebook</li>
+<li>Go to Kubeflow component <span class="label label-danger">Pipeline</span>, choose an abitrary example pipeline then copy the pipeline ID in the <span class="label label-danger">Summary</span> box or on the address bar. For instance: <code>http://localhost:8080/#/pipelines/details/&lt;pipeline_id&gt;</code></li>
+<li>Go to <span class="label label-danger">Experiments</span>, create an experiment and copy its <code>ID</code> on the address bar. For instance: <code>http://localhost:8080/#/experiments/details/&lt;experiment_id&gt;</code></li>
+<li>Snippet</li>
+</ol>
+<ul>
+<li>Create a client instance<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python"><span class="hljs-keyword">import</span> kfp<br>client = kfp.Client(<span class="hljs-string">&quot;http://localhost:8080/pipeline&quot;</span>)<br></code></pre></div></td></tr></table></figure></li>
+<li>Run a pipeline<figure class="highlight python"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs python">run_result = client.run_pipeline(<br>    pipeline_id=<span class="hljs-string">&quot;&lt;pipeline_id&gt;&quot;</span>, <br>    experiment_id=<span class="hljs-string">&quot;&lt;experiment_id&gt;&quot;</span>, <br>    job_name=<span class="hljs-string">&quot;Example pipeline&quot;</span><br>)<br></code></pre></div></td></tr></table></figure></li>
+<li>Click on <span class="label label-danger">Run details</span> that will lead you to the <span class="label label-danger">Run</span> UI of the pipeline.</li>
+</ul>
+<h2 id="Packages"><a href="#Packages" class="headerlink" title="Packages"></a>Packages</h2><ul>
+<li><code>kfp.compiler</code>: Compile Python pipeline function into <code>YAML</code> file which can be read by the backend.</li>
+<li><code>kfp.components</code>: includes all the method of transforming, loading <span class="label label-danger">kfp</span> components.</li>
+<li><code>kfp.dsl</code>: contains domain-specific language(DSL) that is used to interact with pipelines and components. Keep in mind that the SDK has its own way to define components and operators to compile pipelines and components into <code>YAML</code> file. In my opinion, it is quite similar to Tensorflow v1 especially in terms of graph definition.</li>
+<li><code>kfp.Client</code> contains Python client libraries for the API.</li>
+</ul>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><p>In this post, we have known:</p>
+<ul>
+<li>what Kubeflow is</li>
+<li>why we should use Kubeflow</li>
+<li>how to install</li>
+<li>what Kubeflow SDK is</li>
+</ul>
+<p>In the upcoming posts, I would like to share to you folks the way of using <span class="label label-danger">kfp</span> for your projects includes:</p>
+<ul>
+<li>Pipeline</li>
+<li>Component</li>
+<li>Operator</li>
+<li>Artifact<!-- * <a href="/2021/10/03/kubeflow_ep2_pipeline/" title="Pipeline">Pipeline</a></li>
+<li><a href="/2021/10/10/kubeflow_ep3_component/" title="Component">Component</a></li>
+<li><a href="/2021/10/17/kubeflow_ep4_operator/" title="Operator">Operator</a></li>
+<li><a href="/2021/10/24/kubeflow_ep5_artifact/" title="Artifact">Artifact</a> --></li>
+</ul>
+<p>Thank you for your reading! Stay tuned for upcoming posts!<br>Please feel free to leave a comment if you have any concerns.<br>Peace ❤️❤️❤️</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Kubeflow/">Kubeflow</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/dag/">dag</a>
+                    
+                      <a class="hover-with-bg" href="/tags/mlops/">mlops</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    
+      <script>
+        Fluid.utils.loadComments('#disqus_thread', function() {
+          Fluid.utils.createCssLink('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css');
+          Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', function() {
+            new DisqusJS({
+              shortname: 'vusblog',
+              apikey: 'Wmekkxqztn3h8mtCZgZ5b47ecpD4xwufXGh2hz8L3aEAJwlcNngFcZoIshFJ9wTk'
+            });
+          });
+        });
+      </script>
+    
+    <noscript>Please enable JavaScript to view the comments</noscript>
+  </div>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-love"></i> <a href="/about" target="_blank" rel="nofollow noopener"><span>My Portfolio</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
